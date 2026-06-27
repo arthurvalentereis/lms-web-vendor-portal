@@ -2,18 +2,76 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import type { VendorPortalAnalysisRequest } from "@/models";
 import { formatCurrency, formatDocument } from "@/lib/formatters";
+import {
+  approvalStatusStyles,
+  getApprovalStatusTone,
+} from "@/lib/approvalStatusStyles";
 import { Badge } from "@/components/ui/badge";
 
 function ApprovalBadge({ approved }: { approved?: boolean | null }) {
   const { t } = useTranslation("dashboard");
+  const tone = getApprovalStatusTone(approved);
+  const label =
+    tone === "approved"
+      ? t("status.approved")
+      : tone === "rejected"
+        ? t("status.rejected")
+        : t("status.inAnalysis");
 
-  if (approved === true) {
-    return <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">{t("status.approved")}</Badge>;
+  return (
+    <Badge className={approvalStatusStyles[tone].badge} variant="default">
+      {label}
+    </Badge>
+  );
+}
+
+function AnalysisRequestCard({ request }: { request: VendorPortalAnalysisRequest }) {
+  return (
+    <article className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-medium text-[var(--letmesee-foreground)]">
+            {request.customerName ?? request.customerDocument ?? `#${request.id}`}
+          </p>
+          {request.customerDocument && request.customerName ? (
+            <p className="mt-1 text-xs text-[var(--letmesee-muted)]">
+              {formatDocument(request.customerDocument)}
+            </p>
+          ) : null}
+        </div>
+        <ApprovalBadge approved={request.approved} />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-[var(--letmesee-muted)]">
+        <span>{dayjs(request.requestedDate).format("DD/MM/YYYY")}</span>
+        <span aria-hidden>·</span>
+        <span>{formatCurrency(request.requestedAmount)}</span>
+        {request.categoryName ? (
+          <>
+            <span aria-hidden>·</span>
+            <span>{request.categoryName}</span>
+          </>
+        ) : null}
+        {request.statusName ? (
+          <>
+            <span aria-hidden>·</span>
+            <span>{request.statusName}</span>
+          </>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+function AnalysisRequestPreviewSkeleton({ variant }: { variant: "card" | "row" }) {
+  if (variant === "card") {
+    return (
+      <div className="h-[5.5rem] animate-pulse rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface-subtle)]" />
+    );
   }
-  if (approved === false) {
-    return <Badge className="bg-red-500/15 text-red-700 dark:text-red-300">{t("status.rejected")}</Badge>;
-  }
-  return <Badge variant="default">{t("status.inAnalysis")}</Badge>;
+
+  return (
+    <div className="h-14 animate-pulse rounded-xl bg-[var(--letmesee-surface-subtle)]" />
+  );
 }
 
 export function AnalysisRequestListPreview({
@@ -27,14 +85,18 @@ export function AnalysisRequestListPreview({
 }) {
   if (loading) {
     return (
-      <div className="space-y-3">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-14 animate-pulse rounded-xl bg-[var(--letmesee-surface-subtle)]"
-          />
-        ))}
-      </div>
+      <>
+        <div className="grid gap-3 md:hidden">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <AnalysisRequestPreviewSkeleton key={index} variant="card" />
+          ))}
+        </div>
+        <div className="hidden space-y-3 md:block">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <AnalysisRequestPreviewSkeleton key={index} variant="row" />
+          ))}
+        </div>
+      </>
     );
   }
 
@@ -43,21 +105,30 @@ export function AnalysisRequestListPreview({
   }
 
   return (
-    <ul className="divide-y divide-[var(--letmesee-border)]">
-      {items.map((request) => (
-        <li key={request.id} className="flex items-center justify-between gap-3 py-3">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-[var(--letmesee-foreground)]">
-              {request.customerName ?? request.customerDocument ?? `#${request.id}`}
-            </p>
-            <p className="truncate text-xs text-[var(--letmesee-muted)]">
-              {formatCurrency(request.requestedAmount)} · {dayjs(request.requestedDate).format("DD/MM/YYYY")}
-            </p>
-          </div>
-          <ApprovalBadge approved={request.approved} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="hidden divide-y divide-[var(--letmesee-border)] md:block">
+        {items.map((request) => (
+          <li key={request.id} className="flex items-center justify-between gap-3 py-3">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-[var(--letmesee-foreground)]">
+                {request.customerName ?? request.customerDocument ?? `#${request.id}`}
+              </p>
+              <p className="truncate text-xs text-[var(--letmesee-muted)]">
+                {formatCurrency(request.requestedAmount)} ·{" "}
+                {dayjs(request.requestedDate).format("DD/MM/YYYY")}
+              </p>
+            </div>
+            <ApprovalBadge approved={request.approved} />
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid gap-3 md:hidden">
+        {items.map((request) => (
+          <AnalysisRequestCard key={request.id} request={request} />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -148,35 +219,7 @@ export function AnalysisRequestList({
 
       <div className="grid gap-3 md:hidden">
         {items.map((request) => (
-          <article
-            key={request.id}
-            className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-4"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="font-medium text-[var(--letmesee-foreground)]">
-                  {request.customerName ?? `#${request.id}`}
-                </p>
-                {request.customerDocument ? (
-                  <p className="mt-1 text-xs text-[var(--letmesee-muted)]">
-                    {formatDocument(request.customerDocument)}
-                  </p>
-                ) : null}
-              </div>
-              <ApprovalBadge approved={request.approved} />
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-xs text-[var(--letmesee-muted)]">
-              <span>{dayjs(request.requestedDate).format("DD/MM/YYYY")}</span>
-              <span>·</span>
-              <span>{formatCurrency(request.requestedAmount)}</span>
-              {request.categoryName ? (
-                <>
-                  <span>·</span>
-                  <span>{request.categoryName}</span>
-                </>
-              ) : null}
-            </div>
-          </article>
+          <AnalysisRequestCard key={request.id} request={request} />
         ))}
       </div>
 

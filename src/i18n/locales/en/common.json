@@ -3,6 +3,7 @@
   "dashboard": "Dashboard",
   "customers": "Customers",
   "analysisRequests": "Credit requests",
+  "analysisRequestsShort": "Requests",
   "signOut": "Sign out",
   "openMenu": "Open menu",
   "closeMenu": "Close menu",
@@ -27,6 +28,75 @@
   "customerType": {
     "pf": "Individual",
     "pj": "Business"
+  },
+  "actions": {
+    "requestCredit": "Request credit",
+    "requestCreditShort": "Request credit",
+    "closeModal": "Close"
+  },
+  "requestCredit": {
+    "title": "Request credit",
+    "subtitle": "Enter the document, company name, and requested amount.",
+    "close": "Close",
+    "cancel": "Cancel",
+    "submit": "Submit request",
+    "submitting": "Submitting…",
+    "success": "Credit request created successfully.",
+    "registeredCustomer": "Registered customer",
+    "localizationFound": "Registry data",
+    "localizationFoundPerson": "Identity data",
+    "fields": {
+      "document": "Document",
+      "documentHelpAria": "Help about accepted document types",
+      "documentHelpTitle": "Document types",
+      "documentHelpBody": "Enter the customer's tax ID. Accepted formats include CNPJ (Brazil), CPF (Brazil), EIN (USA), or Tax ID (other countries).",
+      "name": "Company name",
+      "personName": "Person name",
+      "amount": "Requested amount"
+    },
+    "placeholders": {
+      "document": "CPF, CNPJ, EIN, or Tax ID",
+      "name": "Legal or trade name",
+      "personName": "Full name",
+      "amount": "0.00"
+    },
+    "errors": {
+      "documentRequired": "Enter the document.",
+      "invalidDocument": "Enter a valid document.",
+      "invalidCpf": "Enter a valid CPF.",
+      "invalidCnpj": "Enter a valid CNPJ.",
+      "nameRequired": "Enter the company name.",
+      "personNameRequired": "Enter the person name.",
+      "amountRequired": "Enter an amount greater than zero.",
+      "submitFailed": "Could not create the request. Please try again."
+    }
+  },
+  "pwa": {
+    "installHintTitle": "Install the app",
+    "installHint": "Add the sales portal to your home screen for quick access.",
+    "installHintIos": "Tap Share, then \"Add to Home Screen\".",
+    "installAction": "Install app",
+    "dismissInstallHint": "Dismiss install hint"
+  },
+  "quickSearch": {
+    "trigger": "Search…",
+    "triggerShort": "Search",
+    "title": "Quick search",
+    "placeholder": "Search customers or orders by name, CPF, CNPJ…",
+    "hint": "Type at least {{count}} characters to search.",
+    "hintDetail": "Customers and credit requests in your portfolio.",
+    "empty": "No results for \"{{query}}\".",
+    "close": "Close search",
+    "groupCustomersPj": "Business",
+    "groupCustomersPf": "Individual",
+    "groupOrders": "Credit requests",
+    "orderFallback": "Request #{{id}}",
+    "statusApproved": "Approved",
+    "statusRejected": "Rejected",
+    "statusInAnalysis": "In review",
+    "footerNavigate": "↑↓ navigate",
+    "footerOpen": "Enter open",
+    "footerClose": "Esc close"
   },
   "seo": {
     "brandTitle": "Letmesee Sales Portal",

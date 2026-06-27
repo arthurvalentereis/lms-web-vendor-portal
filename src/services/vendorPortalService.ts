@@ -1,14 +1,29 @@
-import type { VendorPortalDashboard, VendorPortalEmployee } from "@/models";
+import type {
+  CreateVendorPortalAnalysisRequestPayload,
+  VendorPortalDashboard,
+  VendorPortalEmployee,
+} from "@/models";
+import type { PortalBranding } from "@/models/portalBranding";
 import {
   normalizeVendorAnalysisRequest,
+  normalizeVendorBranding,
+  normalizeVendorCompanyResolve,
   normalizeVendorCustomer,
   normalizeVendorDashboard,
   normalizeVendorEmployee,
   normalizeVendorPagedResult,
 } from "@/lib/normalizeVendorPortal";
+import { normalizeDocumentForApi } from "@/lib/document";
 import { api } from "./api";
 
 export const vendorPortalService = {
+  getBranding: async (host: string) => {
+    const { data } = await api.get<PortalBranding>("/vendor-portal/branding", {
+      params: { host },
+    });
+    return normalizeVendorBranding(data);
+  },
+
   requestMagicLink: async (email: string) => {
     await api.post("/vendor-portal/magic-link", { email });
   },
@@ -50,5 +65,40 @@ export const vendorPortalService = {
       { params: { page, pageSize } }
     );
     return normalizeVendorPagedResult(data, normalizeVendorAnalysisRequest);
+  },
+
+  quickSearch: async (query: string, limit = 20) => {
+    const { data } = await api.get<Record<string, unknown>>("/vendor-portal/search", {
+      params: { q: query, limit },
+    });
+    const customers = (data.customers ?? data.Customers ?? []) as Record<string, unknown>[];
+    const analysisRequests = (data.analysisRequests ?? data.AnalysisRequests ?? []) as Record<
+      string,
+      unknown
+    >[];
+
+    return {
+      customers: customers.map(normalizeVendorCustomer),
+      analysisRequests: analysisRequests.map(normalizeVendorAnalysisRequest),
+    };
+  },
+
+  resolveCompany: async (document: string) => {
+    const { data } = await api.get<Record<string, unknown>>("/vendor-portal/companies/resolve", {
+      params: { cnpj: normalizeDocumentForApi(document) },
+    });
+    return normalizeVendorCompanyResolve(data);
+  },
+
+  createAnalysisRequest: async (payload: CreateVendorPortalAnalysisRequestPayload) => {
+    const { data } = await api.post<Record<string, unknown>>(
+      "/vendor-portal/analysis-requests",
+      {
+        document: normalizeDocumentForApi(payload.document),
+        name: payload.name.trim(),
+        requestedAmount: payload.requestedAmount,
+      }
+    );
+    return normalizeVendorAnalysisRequest(data);
   },
 };

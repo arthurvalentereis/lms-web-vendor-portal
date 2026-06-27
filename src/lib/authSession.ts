@@ -25,6 +25,7 @@ export function isUnauthorizedError(error: unknown): boolean {
 export function isPublicPortalApiPath(url?: string): boolean {
   if (!url) return false;
   return (
+    url.includes("/vendor-portal/branding") ||
     url.includes("/vendor-portal/magic-link") ||
     url.includes("/vendor-portal/verify-magic-link")
   );

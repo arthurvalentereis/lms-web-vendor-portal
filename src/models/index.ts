@@ -40,8 +40,16 @@ export interface VendorPortalDashboardKpis {
   rejectedCount: number;
 }
 
+export interface VendorPortalMonthlyOrdersPoint {
+  monthKey: string;
+  label: string;
+  orderCount: number;
+  totalAmount: number;
+}
+
 export interface VendorPortalDashboard {
   kpis: VendorPortalDashboardKpis;
+  monthlyOrders: VendorPortalMonthlyOrdersPoint[];
   recentCustomers: VendorPortalCustomer[];
   recentAnalysisRequests: VendorPortalAnalysisRequest[];
 }
@@ -51,4 +59,21 @@ export interface VendorPortalPagedResult<T> {
   total: number;
   page: number;
   pageSize: number;
+}
+
+export type VendorPortalCompanyResolveSource = "registered" | "localization" | "manual";
+
+export interface VendorPortalCompanyResolve {
+  document: string;
+  name?: string | null;
+  source: VendorPortalCompanyResolveSource;
+  customerId?: number | null;
+  customerType?: "Pf" | "Pj" | null;
+  userCompanyId?: number | null;
+}
+
+export interface CreateVendorPortalAnalysisRequestPayload {
+  document: string;
+  name: string;
+  requestedAmount: number;
 }

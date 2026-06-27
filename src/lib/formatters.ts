@@ -12,6 +12,16 @@ export function formatCurrency(
   }).format(amount);
 }
 
+export function formatCompactCurrency(value: number, locale?: string): string {
+  const activeLocale = locale ?? getActiveLocale();
+  return new Intl.NumberFormat(activeLocale, {
+    style: "currency",
+    currency: "BRL",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
 export function formatDate(
   value: string | null | undefined,
   locale?: string

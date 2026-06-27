@@ -9,9 +9,20 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { PwaInstallHint } from "@/components/PwaInstallHint";
+import {
+  RequestCreditModalProvider,
+  useRequestCreditModal,
+} from "@/contexts/RequestCreditModalContext";
+import { RequestCreditTriggerButton } from "@/components/RequestCreditTriggerButton";
+import { VendorQuickSearchDialog, VendorQuickSearchTrigger } from "@/components/VendorQuickSearch";
+import { useVendorQuickSearch } from "@/components/VendorQuickSearch/useVendorQuickSearch";
 import { VendorBrandLogo } from "@/components/VendorBrandLogo";
+import { VendorMobileActionBar } from "@/components/VendorMobileActionBar";
 import { PortalPreferences } from "@/components/preferences";
+import type { VendorMobileActionHandler } from "@/config/vendorMobileActions";
 import { useVendorAuth } from "@/contexts/VendorAuthContext";
+import { useVendorBranding } from "@/contexts/VendorBrandingContext";
 import { cn } from "@/lib/utils";
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
@@ -86,6 +97,8 @@ function SidebarFooter({ onSignOut }: { onSignOut: () => void }) {
 
 function SidebarBrand({ onClose }: { onClose?: () => void }) {
   const { t } = useTranslation("common");
+  const { branding } = useVendorBranding();
+  const portalTitle = branding?.isCustom ? branding.displayName : t("portalTitle");
 
   return (
     <div className="flex items-center justify-between gap-3 border-b border-[var(--letmesee-sidebar-border)] px-4 py-4">
@@ -93,11 +106,13 @@ function SidebarBrand({ onClose }: { onClose?: () => void }) {
         <VendorBrandLogo className="h-[2.475rem] w-auto shrink-0" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-[var(--letmesee-foreground)]">
-            {t("portalTitle")}
+            {portalTitle}
           </p>
-          <p className="truncate text-[11px] text-[var(--letmesee-muted)]">
-            {t("portalSubtitle")}
-          </p>
+          {!branding?.isCustom ? (
+            <p className="truncate text-[11px] text-[var(--letmesee-muted)]">
+              {t("portalSubtitle")}
+            </p>
+          ) : null}
         </div>
       </div>
       {onClose ? (
@@ -115,10 +130,21 @@ function SidebarBrand({ onClose }: { onClose?: () => void }) {
 }
 
 export function VendorLayout() {
+  return (
+    <RequestCreditModalProvider>
+      <VendorLayoutInner />
+    </RequestCreditModalProvider>
+  );
+}
+
+function VendorLayoutInner() {
   const { signOut } = useVendorAuth();
+  const { branding } = useVendorBranding();
   const location = useLocation();
   const { t } = useTranslation("common");
+  const { openRequestCredit } = useRequestCreditModal();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const quickSearch = useVendorQuickSearch();
 
   useEffect(() => {
     setMobileOpen(false);
@@ -134,6 +160,12 @@ export function VendorLayout() {
   function handleSignOut() {
     setMobileOpen(false);
     signOut();
+  }
+
+  function handleMobileAction(handler: VendorMobileActionHandler) {
+    if (handler === "request-credit") {
+      openRequestCredit();
+    }
   }
 
   const sidebar = (
@@ -180,14 +212,24 @@ export function VendorLayout() {
             <Menu className="h-5 w-5" />
           </button>
           <VendorBrandLogo className="h-[2.2rem] w-auto" />
-          <span className="truncate text-sm font-medium text-[var(--letmesee-foreground)]">
-            {t("portalMobileTitle")}
+          <span className="min-w-0 flex-1 truncate text-sm font-medium text-[var(--letmesee-foreground)]">
+            {branding?.isCustom ? branding.displayName : t("portalMobileTitle")}
           </span>
+          <VendorQuickSearchTrigger openSearch={quickSearch.openSearch} />
         </header>
 
-        <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
+        <header className="sticky top-0 z-30 hidden items-center justify-end gap-3 border-b border-[var(--letmesee-border)] bg-[var(--letmesee-surface)]/90 px-6 py-3 backdrop-blur-md lg:flex">
+          <RequestCreditTriggerButton labelKey="newRequestShort" />
+          <VendorQuickSearchTrigger openSearch={quickSearch.openSearch} />
+        </header>
+
+        <main className="flex-1 overflow-auto p-4 pb-[calc(3.5rem+env(safe-area-inset-bottom))] sm:p-6 lg:p-8 lg:pb-8">
           <Outlet />
         </main>
+
+        <VendorMobileActionBar onAction={handleMobileAction} />
+        <PwaInstallHint />
+        <VendorQuickSearchDialog {...quickSearch} />
       </div>
     </div>
   );

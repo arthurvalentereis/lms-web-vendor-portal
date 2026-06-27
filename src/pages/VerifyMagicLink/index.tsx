@@ -6,11 +6,13 @@ import toast from "react-hot-toast";
 import { VendorBrandLogo } from "@/components/VendorBrandLogo";
 import { PortalPreferences } from "@/components/preferences";
 import { PageMeta } from "@/components/PageMeta";
+import { usePortalPageMeta } from "@/hooks/usePortalPageMeta";
 import { useVendorAuth } from "@/contexts/VendorAuthContext";
 import { vendorPortalService } from "@/services/vendorPortalService";
 
 export function VerifyMagicLinkPage() {
   const { t } = useTranslation(["auth", "common"]);
+  const { siteName, buildTitle } = usePortalPageMeta();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { signIn } = useVendorAuth();
@@ -41,10 +43,11 @@ export function VerifyMagicLinkPage() {
   return (
     <div className="portal-auth-grid relative flex min-h-screen items-center justify-center px-4 py-10 pt-16 sm:pt-10">
       <PageMeta
-        title={t("common:seo.verifyTitle")}
+        title={buildTitle(t("common:seo.verifyTitle"))}
         description={t("common:seo.verifyDescription")}
         noIndex
         path="/auth/verify"
+        siteName={siteName}
       />
       <PortalPreferences variant="floating" />
 

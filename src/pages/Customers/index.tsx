@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PageMeta } from "@/components/PageMeta";
+import { usePortalPageMeta } from "@/hooks/usePortalPageMeta";
 import { CustomerList } from "@/components/customers/CustomerList";
 import type { VendorPortalCustomer } from "@/models";
 import { vendorPortalService } from "@/services/vendorPortalService";
 
 export function CustomersPage() {
   const { t } = useTranslation(["dashboard", "common"]);
+  const { siteName, buildTitle } = usePortalPageMeta();
   const [items, setItems] = useState<VendorPortalCustomer[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -29,9 +31,10 @@ export function CustomersPage() {
   return (
     <>
       <PageMeta
-        title={t("common:seo.customersTitle")}
+        title={buildTitle(t("common:seo.customersTitle"))}
         description={t("common:seo.customersDescription")}
         path="/customers"
+        siteName={siteName}
       />
 
       <div className="mx-auto max-w-6xl space-y-6">

@@ -9,6 +9,19 @@
     "approved": "Aprobados",
     "rejected": "Rechazados"
   },
+  "ordersChart": {
+    "title": "Pedidos por mes",
+    "subtitle": "Evolución de solicitudes de crédito en su cartera",
+    "period3": "3 meses",
+    "period6": "6 meses",
+    "period12": "12 meses",
+    "metricCount": "Cantidad",
+    "metricAmount": "Valor",
+    "empty": "Sin pedidos en el período seleccionado",
+    "emptyHint": "Cuando haya solicitudes de crédito, la evolución mensual aparecerá aquí.",
+    "tooltipCount": "{{count}} pedido(s)",
+    "tooltipAmount": "{{amount}}"
+  },
   "recentCustomers": {
     "title": "Últimos clientes",
     "empty": "Ningún cliente vinculado a su cartera."
@@ -31,6 +44,8 @@
   "analysisRequests": {
     "title": "Solicitudes de crédito",
     "subtitle": "Solicitudes de análisis vinculadas a su usuario.",
+    "newRequest": "Nueva solicitud",
+    "newRequestShort": "Nueva solicitud",
     "empty": "Ninguna solicitud de crédito encontrada.",
     "columns": {
       "date": "Fecha",

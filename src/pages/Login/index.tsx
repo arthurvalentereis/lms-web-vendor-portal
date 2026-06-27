@@ -5,10 +5,12 @@ import { Trans, useTranslation } from "react-i18next";
 import { PortalPreferences } from "@/components/preferences";
 import { PageMeta } from "@/components/PageMeta";
 import { VendorBrandLogo } from "@/components/VendorBrandLogo";
+import { usePortalPageMeta } from "@/hooks/usePortalPageMeta";
 import { vendorPortalService } from "@/services/vendorPortalService";
 
 export function LoginPage() {
   const { t } = useTranslation(["auth", "common"]);
+  const { siteName, buildTitle } = usePortalPageMeta();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -42,9 +44,10 @@ export function LoginPage() {
   return (
     <div className="relative flex min-h-screen pt-12 sm:pt-0">
       <PageMeta
-        title={t("common:seo.loginTitle")}
+        title={buildTitle(t("common:seo.loginTitle"))}
         description={t("common:seo.loginDescription")}
         path="/login"
+        siteName={siteName}
       />
       <PortalPreferences variant="floating" />
 

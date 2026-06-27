@@ -12,6 +12,43 @@ function CustomerTypeBadge({ type }: { type: "Pf" | "Pj" }) {
   );
 }
 
+function CustomerCard({
+  customer,
+  showCreditor = false,
+}: {
+  customer: VendorPortalCustomer;
+  showCreditor?: boolean;
+}) {
+  return (
+    <article className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-medium text-[var(--letmesee-foreground)]">{customer.name}</p>
+          <p className="mt-1 text-xs text-[var(--letmesee-muted)]">
+            {formatDocument(customer.document)}
+          </p>
+        </div>
+        <CustomerTypeBadge type={customer.customerType} />
+      </div>
+      {showCreditor && customer.creditorName ? (
+        <p className="mt-3 text-xs text-[var(--letmesee-muted)]">{customer.creditorName}</p>
+      ) : null}
+    </article>
+  );
+}
+
+function CustomerPreviewSkeleton({ variant }: { variant: "card" | "row" }) {
+  if (variant === "card") {
+    return (
+      <div className="h-[5.5rem] animate-pulse rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface-subtle)]" />
+    );
+  }
+
+  return (
+    <div className="h-14 animate-pulse rounded-xl bg-[var(--letmesee-surface-subtle)]" />
+  );
+}
+
 export function CustomerListPreview({
   items,
   loading,
@@ -23,14 +60,18 @@ export function CustomerListPreview({
 }) {
   if (loading) {
     return (
-      <div className="space-y-3">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-14 animate-pulse rounded-xl bg-[var(--letmesee-surface-subtle)]"
-          />
-        ))}
-      </div>
+      <>
+        <div className="grid gap-3 md:hidden">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CustomerPreviewSkeleton key={index} variant="card" />
+          ))}
+        </div>
+        <div className="hidden space-y-3 md:block">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CustomerPreviewSkeleton key={index} variant="row" />
+          ))}
+        </div>
+      </>
     );
   }
 
@@ -39,21 +80,32 @@ export function CustomerListPreview({
   }
 
   return (
-    <ul className="divide-y divide-[var(--letmesee-border)]">
-      {items.map((customer) => (
-        <li key={`${customer.customerType}-${customer.id}`} className="flex items-center justify-between gap-3 py-3">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-[var(--letmesee-foreground)]">
-              {customer.name}
-            </p>
-            <p className="truncate text-xs text-[var(--letmesee-muted)]">
-              {formatDocument(customer.document)}
-            </p>
-          </div>
-          <CustomerTypeBadge type={customer.customerType} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="hidden divide-y divide-[var(--letmesee-border)] md:block">
+        {items.map((customer) => (
+          <li
+            key={`${customer.customerType}-${customer.id}`}
+            className="flex items-center justify-between gap-3 py-3"
+          >
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-[var(--letmesee-foreground)]">
+                {customer.name}
+              </p>
+              <p className="truncate text-xs text-[var(--letmesee-muted)]">
+                {formatDocument(customer.document)}
+              </p>
+            </div>
+            <CustomerTypeBadge type={customer.customerType} />
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid gap-3 md:hidden">
+        {items.map((customer) => (
+          <CustomerCard key={`${customer.customerType}-${customer.id}`} customer={customer} />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -133,23 +185,7 @@ export function CustomerList({
 
       <div className="grid gap-3 md:hidden">
         {items.map((customer) => (
-          <article
-            key={`${customer.customerType}-${customer.id}`}
-            className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-4"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="font-medium text-[var(--letmesee-foreground)]">{customer.name}</p>
-                <p className="mt-1 text-xs text-[var(--letmesee-muted)]">
-                  {formatDocument(customer.document)}
-                </p>
-              </div>
-              <CustomerTypeBadge type={customer.customerType} />
-            </div>
-            {customer.creditorName ? (
-              <p className="mt-3 text-xs text-[var(--letmesee-muted)]">{customer.creditorName}</p>
-            ) : null}
-          </article>
+          <CustomerCard key={`${customer.customerType}-${customer.id}`} customer={customer} showCreditor />
         ))}
       </div>
 

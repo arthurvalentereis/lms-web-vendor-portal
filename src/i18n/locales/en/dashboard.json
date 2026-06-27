@@ -9,6 +9,19 @@
     "approved": "Approved",
     "rejected": "Rejected"
   },
+  "ordersChart": {
+    "title": "Orders by month",
+    "subtitle": "Credit request trend in your portfolio",
+    "period3": "3 months",
+    "period6": "6 months",
+    "period12": "12 months",
+    "metricCount": "Quantity",
+    "metricAmount": "Amount",
+    "empty": "No orders in the selected period",
+    "emptyHint": "When credit requests are registered, the monthly trend will appear here.",
+    "tooltipCount": "{{count}} request(s)",
+    "tooltipAmount": "{{amount}}"
+  },
   "recentCustomers": {
     "title": "Recent customers",
     "empty": "No customers linked to your portfolio."
@@ -31,6 +44,8 @@
   "analysisRequests": {
     "title": "Credit requests",
     "subtitle": "Analysis requests linked to your user.",
+    "newRequest": "New request",
+    "newRequestShort": "New request",
     "empty": "No credit requests found.",
     "columns": {
       "date": "Date",

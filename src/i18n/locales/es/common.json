@@ -3,6 +3,7 @@
   "dashboard": "Dashboard",
   "customers": "Clientes",
   "analysisRequests": "Solicitudes de crédito",
+  "analysisRequestsShort": "Pedidos",
   "signOut": "Salir",
   "openMenu": "Abrir menú",
   "closeMenu": "Cerrar menú",
@@ -27,6 +28,75 @@
   "customerType": {
     "pf": "Persona física",
     "pj": "Persona jurídica"
+  },
+  "actions": {
+    "requestCredit": "Solicitar crédito",
+    "requestCreditShort": "Solicitar crédito",
+    "closeModal": "Cerrar"
+  },
+  "requestCredit": {
+    "title": "Solicitar crédito",
+    "subtitle": "Informe el documento, nombre de la empresa y valor del pedido.",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "submit": "Enviar pedido",
+    "submitting": "Enviando…",
+    "success": "Solicitud de crédito creada con éxito.",
+    "registeredCustomer": "Cliente registrado",
+    "localizationFound": "Datos del registro",
+    "localizationFoundPerson": "Datos cadastrales",
+    "fields": {
+      "document": "Documento",
+      "documentHelpAria": "Ayuda sobre tipos de documento aceptados",
+      "documentHelpTitle": "Tipos de documento",
+      "documentHelpBody": "Informe el documento fiscal del cliente. Se aceptan CNPJ (Brasil), CPF (Brasil), EIN (EE.UU.) o Tax ID (otros países).",
+      "name": "Nombre de la empresa",
+      "personName": "Nombre de la persona",
+      "amount": "Valor del pedido"
+    },
+    "placeholders": {
+      "document": "CPF, CNPJ, EIN o Tax ID",
+      "name": "Razón social o nombre comercial",
+      "personName": "Nombre completo",
+      "amount": "0,00"
+    },
+    "errors": {
+      "documentRequired": "Informe el documento.",
+      "invalidDocument": "Informe un documento válido.",
+      "invalidCpf": "Informe un CPF válido.",
+      "invalidCnpj": "Informe un CNPJ válido.",
+      "nameRequired": "Ingrese el nombre de la empresa.",
+      "personNameRequired": "Ingrese el nombre de la persona.",
+      "amountRequired": "Ingrese un valor mayor que cero.",
+      "submitFailed": "No se pudo crear el pedido. Inténtelo de nuevo."
+    }
+  },
+  "pwa": {
+    "installHintTitle": "Instale la app",
+    "installHint": "Agregue el portal comercial a la pantalla de inicio para acceso rápido.",
+    "installHintIos": "Toque Compartir y luego \"Agregar a pantalla de inicio\".",
+    "installAction": "Instalar app",
+    "dismissInstallHint": "Cerrar sugerencia de instalación"
+  },
+  "quickSearch": {
+    "trigger": "Buscar…",
+    "triggerShort": "Buscar",
+    "title": "Búsqueda rápida",
+    "placeholder": "Buscar clientes o pedidos por nombre, CPF, CNPJ…",
+    "hint": "Escriba al menos {{count}} caracteres para buscar.",
+    "hintDetail": "Clientes y solicitudes de crédito de su cartera.",
+    "empty": "Ningún resultado para \"{{query}}\".",
+    "close": "Cerrar búsqueda",
+    "groupCustomersPj": "Persona jurídica",
+    "groupCustomersPf": "Persona física",
+    "groupOrders": "Solicitudes de crédito",
+    "orderFallback": "Pedido #{{id}}",
+    "statusApproved": "Aprobado",
+    "statusRejected": "Rechazado",
+    "statusInAnalysis": "En análisis",
+    "footerNavigate": "↑↓ navegar",
+    "footerOpen": "Enter abrir",
+    "footerClose": "Esc cerrar"
   },
   "seo": {
     "brandTitle": "Portal Comercial Letmesee",

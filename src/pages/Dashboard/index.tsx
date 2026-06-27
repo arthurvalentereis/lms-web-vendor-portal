@@ -1,41 +1,19 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Clock, Users, XCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PageMeta } from "@/components/PageMeta";
+import { usePortalPageMeta } from "@/hooks/usePortalPageMeta";
 import { CustomerListPreview } from "@/components/customers/CustomerList";
 import { AnalysisRequestListPreview } from "@/components/analysis/AnalysisRequestList";
+import { DashboardKpiSidebar } from "@/components/dashboard/DashboardKpiSidebar";
+import { DashboardOrdersChartPanel } from "@/components/dashboard/DashboardOrdersChartPanel";
 import type { VendorPortalDashboard } from "@/models";
 import { vendorPortalService } from "@/services/vendorPortalService";
 
-function KpiCard({
-  label,
-  value,
-  icon: Icon,
-}: {
-  label: string;
-  value: number;
-  icon: typeof Users;
-}) {
-  return (
-    <div className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-5 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-[var(--letmesee-muted)]">
-            {label}
-          </p>
-          <p className="mt-2 text-3xl font-bold text-[var(--letmesee-foreground)]">{value}</p>
-        </div>
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--letmesee-purple)]/10 text-[var(--letmesee-purple)]">
-          <Icon className="h-5 w-5" />
-        </span>
-      </div>
-    </div>
-  );
-}
-
 export function DashboardPage() {
   const { t } = useTranslation(["dashboard", "common"]);
+  const { siteName, buildTitle } = usePortalPageMeta();
   const [dashboard, setDashboard] = useState<VendorPortalDashboard | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,14 +24,21 @@ export function DashboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const kpis = dashboard?.kpis;
+  const kpiLabels = {
+    activeCustomers: t("kpis.activeCustomers"),
+    totalRequests: t("kpis.totalRequests"),
+    inAnalysis: t("kpis.inAnalysis"),
+    approved: t("kpis.approved"),
+    rejected: t("kpis.rejected"),
+  };
 
   return (
     <>
       <PageMeta
-        title={t("common:seo.dashboardTitle")}
+        title={buildTitle(t("common:seo.dashboardTitle"))}
         description={t("common:seo.dashboardDescription")}
         path="/dashboard"
+        siteName={siteName}
       />
 
       <div className="mx-auto max-w-6xl space-y-8">
@@ -64,44 +49,21 @@ export function DashboardPage() {
           <p className="mt-1 text-sm text-[var(--letmesee-muted)]">{t("subtitle")}</p>
         </header>
 
-        {loading ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-28 animate-pulse rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface-subtle)]"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard
-              label={t("kpis.activeCustomers")}
-              value={kpis?.activeCustomersCount ?? 0}
-              icon={Users}
-            />
-            <KpiCard
-              label={t("kpis.totalRequests")}
-              value={kpis?.totalAnalysisRequests ?? 0}
-              icon={Clock}
-            />
-            <KpiCard
-              label={t("kpis.inAnalysis")}
-              value={kpis?.inAnalysisCount ?? 0}
-              icon={Clock}
-            />
-            <KpiCard
-              label={t("kpis.approved")}
-              value={kpis?.approvedCount ?? 0}
-              icon={CheckCircle2}
-            />
-            <KpiCard
-              label={t("kpis.rejected")}
-              value={kpis?.rejectedCount ?? 0}
-              icon={XCircle}
+        <div className="grid gap-4 lg:grid-cols-3 lg:gap-6">
+          <div className="lg:col-span-1">
+            <DashboardKpiSidebar
+              kpis={dashboard?.kpis}
+              loading={loading}
+              labels={kpiLabels}
             />
           </div>
-        )}
+          <div className="lg:col-span-2">
+            <DashboardOrdersChartPanel
+              monthlyOrders={dashboard?.monthlyOrders ?? []}
+              loading={loading}
+            />
+          </div>
+        </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <section className="rounded-2xl border border-[var(--letmesee-border)] bg-[var(--letmesee-surface)] p-5">

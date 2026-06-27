@@ -1,12 +1,28 @@
 import type {
   VendorPortalAnalysisRequest,
+  VendorPortalCompanyResolve,
   VendorPortalCustomer,
   VendorPortalDashboard,
   VendorPortalEmployee,
+  VendorPortalMonthlyOrdersPoint,
 } from "@/models";
+import type { PortalBranding } from "@/models/portalBranding";
 
 function pick<T extends Record<string, unknown>>(raw: T, camel: string, pascal: string) {
   return (raw[camel] ?? raw[pascal]) as never;
+}
+
+export function normalizeVendorBranding(raw: PortalBranding | Record<string, unknown>): PortalBranding {
+  const data = raw as Record<string, unknown>;
+  return {
+    isCustom: Boolean(pick(data, "isCustom", "IsCustom")),
+    isDefaultHost: pick(data, "isDefaultHost", "IsDefaultHost") as boolean | undefined,
+    userCompanyId: pick(data, "userCompanyId", "UserCompanyId") as number | null | undefined,
+    displayName: String(pick(data, "displayName", "DisplayName") ?? "Letmesee"),
+    primaryColor: String(pick(data, "primaryColor", "PrimaryColor") ?? "#835afd"),
+    logoUrl: pick(data, "logoUrl", "LogoUrl") as string | null | undefined,
+    faviconUrl: pick(data, "faviconUrl", "FaviconUrl") as string | null | undefined,
+  };
 }
 
 export function normalizeVendorEmployee(raw: VendorPortalEmployee | Record<string, unknown>): VendorPortalEmployee {
@@ -61,11 +77,24 @@ export function normalizeVendorPagedResult<T>(
   };
 }
 
+export function normalizeVendorMonthlyOrdersPoint(
+  raw: VendorPortalMonthlyOrdersPoint | Record<string, unknown>
+): VendorPortalMonthlyOrdersPoint {
+  const data = raw as Record<string, unknown>;
+  return {
+    monthKey: String(pick(data, "monthKey", "MonthKey") ?? ""),
+    label: String(pick(data, "label", "Label") ?? ""),
+    orderCount: Number(pick(data, "orderCount", "OrderCount") ?? 0),
+    totalAmount: Number(pick(data, "totalAmount", "TotalAmount") ?? 0),
+  };
+}
+
 export function normalizeVendorDashboard(raw: VendorPortalDashboard | Record<string, unknown>): VendorPortalDashboard {
   const data = raw as Record<string, unknown>;
   const kpisRaw = (pick(data, "kpis", "Kpis") ?? {}) as Record<string, unknown>;
   const recentCustomers = (pick(data, "recentCustomers", "RecentCustomers") ?? []) as Record<string, unknown>[];
   const recentAnalysisRequests = (pick(data, "recentAnalysisRequests", "RecentAnalysisRequests") ?? []) as Record<string, unknown>[];
+  const monthlyOrders = (pick(data, "monthlyOrders", "MonthlyOrders") ?? []) as Record<string, unknown>[];
 
   return {
     kpis: {
@@ -79,7 +108,30 @@ export function normalizeVendorDashboard(raw: VendorPortalDashboard | Record<str
       approvedCount: Number(pick(kpisRaw, "approvedCount", "ApprovedCount") ?? 0),
       rejectedCount: Number(pick(kpisRaw, "rejectedCount", "RejectedCount") ?? 0),
     },
+    monthlyOrders: monthlyOrders.map(normalizeVendorMonthlyOrdersPoint),
     recentCustomers: recentCustomers.map(normalizeVendorCustomer),
     recentAnalysisRequests: recentAnalysisRequests.map(normalizeVendorAnalysisRequest),
+  };
+}
+
+export function normalizeVendorCompanyResolve(
+  raw: VendorPortalCompanyResolve | Record<string, unknown>
+): VendorPortalCompanyResolve {
+  const data = raw as Record<string, unknown>;
+  const source = String(pick(data, "source", "Source") ?? "manual");
+  const normalizedSource =
+    source === "registered" || source === "localization" ? source : "manual";
+
+  const customerTypeRaw = pick(data, "customerType", "CustomerType");
+  const customerType =
+    customerTypeRaw === "Pf" || customerTypeRaw === "Pj" ? customerTypeRaw : null;
+
+  return {
+    document: String(pick(data, "document", "Document") ?? ""),
+    name: (pick(data, "name", "Name") as string | null | undefined) ?? null,
+    source: normalizedSource,
+    customerId: pick(data, "customerId", "CustomerId") as number | null | undefined,
+    customerType,
+    userCompanyId: pick(data, "userCompanyId", "UserCompanyId") as number | null | undefined,
   };
 }

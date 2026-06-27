@@ -1,32 +1,52 @@
-# React + TypeScript + Vite
+# Portal Comercial Letmesee (`lms-web-vendor-portal`)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend do portal comercial para vendedores. Consome branding e configurações por domínio via API Letmesee (`/api/vendor-portal/branding`).
 
-Currently, two official plugins are available:
+## Desenvolvimento
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Porta padrão: `44442`. API proxy/config: variável `VITE_APP_API`.
+
+## Branding white-label
+
+O portal aplica automaticamente **nome**, **cor primária**, **logo**, **favicon** e **manifest PWA** com base no host de acesso.
+
+### Configuração (admin Letmesee)
+
+1. Abra **Perfil da empresa** → accordion **Portal do Vendedor**
+2. Salve identidade visual: nome exibido, cor, logo e favicon
+3. Registre o **domínio customizado** (ex.: `comercial.suaempresa.com.br`)
+4. Configure DNS conforme instruções e clique em **Verificar**
+
+Endpoints admin: `GET/PUT /UserCompany/{id}/vendor-portal-settings` (+ rotas de domínio).
+
+### Comportamento em runtime
+
+- Ao carregar, `VendorBrandingProvider` chama `GET /vendor-portal/branding?host={window.location.host}`
+- Se o host corresponder a um `CustomDomain` ativo → `isCustom: true` e aplica aparência da empresa
+- Caso contrário → branding Letmesee padrão (`#835afd`)
+
+**Importante:** em `localhost:44442` o branding custom **não** aparece, a menos que esse host esteja registrado como domínio. Para testar localmente, aponte o domínio no arquivo `hosts` ou use o domínio publicado na Vercel.
+
+### Checklist de verificação manual
+
+1. **Admin:** salvar nome, cor, logo e favicon no Portal do Vendedor
+2. **Domínio:** registrar e verificar DNS até status Verified
+3. **Acesso:** abrir o portal pelo domínio customizado
+4. **Network:** confirmar `GET /api/vendor-portal/branding?host=...` com `isCustom: true`
+5. **DOM:** variáveis `--letmesee-purple-*` alteradas; `link[rel=icon]` e `link[rel=apple-touch-icon]` com URL custom
+6. **UI:** logo e nome custom no login, sidebar e título das páginas (`usePortalPageMeta`)
+7. **PWA:** manifest em runtime reflete nome/cor/ícone da marca (instalação mobile)
+
+### Arquivos relevantes
+
+| Arquivo | Função |
+|---------|--------|
+| `src/contexts/VendorBrandingContext.tsx` | Fetch e aplica branding no boot |
+| `src/lib/portalBranding.ts` | CSS vars, favicon, apple-touch-icon, manifest PWA dinâmico |
+| `src/hooks/usePortalPageMeta.ts` | SEO (`siteName`, título das páginas) |
+| `src/components/VendorBrandLogo.tsx` | Logo custom / iniciais / Letmesee |
