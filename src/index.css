@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --portal-primary: var(--letmesee-purple);
+    --portal-primary-dark: var(--letmesee-purple-dark);
+    --portal-primary-light: var(--letmesee-purple-light);
+    --portal-primary-soft: rgba(131, 90, 253, 0.1);
+    --letmesee-purple-dark: #6f4bd8;
+    --letmesee-purple: #835afd;
+    --letmesee-purple-medium: #8b6de3;
+    --letmesee-purple-light: #af9aef;
+    --letmesee-pink: #e559f9;
+    --letmesee-pink-light: #e45af6;
+    --letmesee-blue: #3814ab;
+    --letmesee-logo-purple: #562a72;
+    --letmesee-foreground: #29292e;
+    --letmesee-muted: #737380;
+    --letmesee-border: #e5e7eb;
+    --letmesee-surface: #ffffff;
+    --letmesee-surface-muted: #fafbfc;
+    --letmesee-surface-subtle: #f1f5f9;
+    --letmesee-background: #f8f9fc;
+    --letmesee-input-bg: #fafafa;
+    --letmesee-sidebar: rgba(244, 244, 245, 0.9);
+    --letmesee-sidebar-border: rgba(228, 228, 231, 0.8);
+  }
+
+  .dark {
+    --letmesee-foreground: #f4f4f5;
+    --letmesee-muted: #a1a1aa;
+    --letmesee-border: #27272a;
+    --letmesee-surface: #181b23;
+    --letmesee-surface-muted: #1f232b;
+    --letmesee-surface-subtle: #27272a;
+    --letmesee-background: #0f1117;
+    --letmesee-input-bg: #1f232b;
+    --letmesee-sidebar: rgba(24, 27, 35, 0.95);
+    --letmesee-sidebar-border: rgba(39, 39, 42, 0.8);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+  background: var(--letmesee-background);
+  color: var(--letmesee-foreground);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@layer utilities {
+  .portal-auth-grid {
+    background-image:
+      linear-gradient(rgba(111, 75, 216, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(111, 75, 216, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .portal-brand-panel {
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--letmesee-purple-dark) 95%, transparent) 0%,
+      color-mix(in srgb, var(--letmesee-purple) 92%, transparent) 45%,
+      color-mix(in srgb, var(--letmesee-purple-light) 88%, transparent) 100%
+    );
+  }
+
+  .portal-glow {
+    box-shadow:
+      0 0 0 1px rgba(131, 90, 253, 0.08),
+      0 24px 48px -12px rgba(86, 42, 114, 0.18);
+  }
+}

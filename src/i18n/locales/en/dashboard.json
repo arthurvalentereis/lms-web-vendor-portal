@@ -1,0 +1,48 @@
+{
+  "title": "Sales dashboard",
+  "subtitle": "Overview of your portfolio and credit requests.",
+  "viewAll": "View all",
+  "kpis": {
+    "activeCustomers": "Active customers",
+    "totalRequests": "Credit requests",
+    "inAnalysis": "In analysis",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "recentCustomers": {
+    "title": "Recent customers",
+    "empty": "No customers linked to your portfolio."
+  },
+  "recentRequests": {
+    "title": "Recent requests",
+    "empty": "No credit requests found."
+  },
+  "customers": {
+    "title": "Customers",
+    "subtitle": "Individual and business customers where you are the commercial owner.",
+    "empty": "No customers found in your portfolio.",
+    "columns": {
+      "name": "Name",
+      "document": "Document",
+      "type": "Type",
+      "creditor": "Creditor"
+    }
+  },
+  "analysisRequests": {
+    "title": "Credit requests",
+    "subtitle": "Analysis requests linked to your user.",
+    "empty": "No credit requests found.",
+    "columns": {
+      "date": "Date",
+      "customer": "Customer",
+      "amount": "Amount",
+      "status": "Status",
+      "category": "Category"
+    }
+  },
+  "status": {
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "inAnalysis": "In analysis"
+  }
+}

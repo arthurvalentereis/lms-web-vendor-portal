@@ -1,0 +1,45 @@
+{
+  "menu": "Menú",
+  "dashboard": "Dashboard",
+  "customers": "Clientes",
+  "analysisRequests": "Solicitudes de crédito",
+  "signOut": "Salir",
+  "openMenu": "Abrir menú",
+  "closeMenu": "Cerrar menú",
+  "portalTitle": "Portal Comercial",
+  "portalSubtitle": "Área del vendedor",
+  "portalMobileTitle": "Portal comercial",
+  "previousPage": "Página anterior",
+  "nextPage": "Página siguiente",
+  "empty": "—",
+  "theme": {
+    "label": "Tema",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "language": {
+    "label": "Idioma",
+    "ptBR": "Português (BR)",
+    "en": "English",
+    "es": "Español"
+  },
+  "customerType": {
+    "pf": "Persona física",
+    "pj": "Persona jurídica"
+  },
+  "seo": {
+    "brandTitle": "Portal Comercial Letmesee",
+    "defaultDescription": "Siga clientes y solicitudes de crédito con acceso seguro por magic link.",
+    "loginTitle": "Inicio de sesión | Portal Comercial Letmesee",
+    "loginDescription": "Acceda al portal comercial Letmesee con un enlace seguro enviado a su correo.",
+    "verifyTitle": "Verificando acceso | Portal Comercial Letmesee",
+    "verifyDescription": "Validación del enlace de acceso al portal comercial Letmesee.",
+    "dashboardTitle": "Dashboard | Portal Comercial Letmesee",
+    "dashboardDescription": "Visión comercial de su cartera: clientes y solicitudes de crédito.",
+    "customersTitle": "Clientes | Portal Comercial Letmesee",
+    "customersDescription": "Clientes bajo su responsabilidad comercial.",
+    "analysisRequestsTitle": "Solicitudes de crédito | Portal Comercial Letmesee",
+    "analysisRequestsDescription": "Solicitudes de crédito vinculadas a su usuario comercial."
+  }
+}

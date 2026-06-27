@@ -1,0 +1,48 @@
+{
+  "title": "Dashboard comercial",
+  "subtitle": "Resumo da sua carteira e pedidos de crédito.",
+  "viewAll": "Ver todos",
+  "kpis": {
+    "activeCustomers": "Clientes ativos",
+    "totalRequests": "Pedidos de crédito",
+    "inAnalysis": "Em análise",
+    "approved": "Aprovados",
+    "rejected": "Recusados"
+  },
+  "recentCustomers": {
+    "title": "Últimos clientes",
+    "empty": "Nenhum cliente vinculado à sua carteira."
+  },
+  "recentRequests": {
+    "title": "Últimos pedidos",
+    "empty": "Nenhum pedido de crédito encontrado."
+  },
+  "customers": {
+    "title": "Clientes",
+    "subtitle": "Clientes PF e PJ com você como responsável comercial.",
+    "empty": "Nenhum cliente encontrado na sua carteira.",
+    "columns": {
+      "name": "Nome",
+      "document": "Documento",
+      "type": "Tipo",
+      "creditor": "Credor"
+    }
+  },
+  "analysisRequests": {
+    "title": "Pedidos de crédito",
+    "subtitle": "Solicitações de análise vinculadas ao seu usuário.",
+    "empty": "Nenhum pedido de crédito encontrado.",
+    "columns": {
+      "date": "Data",
+      "customer": "Cliente",
+      "amount": "Valor",
+      "status": "Status",
+      "category": "Categoria"
+    }
+  },
+  "status": {
+    "approved": "Aprovado",
+    "rejected": "Recusado",
+    "inAnalysis": "Em análise"
+  }
+}

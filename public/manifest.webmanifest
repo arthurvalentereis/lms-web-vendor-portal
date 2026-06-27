@@ -1,0 +1,18 @@
+{
+  "short_name": "Letmesee",
+  "name": "Portal do Cliente Letmesee",
+  "description": "Acompanhe títulos em aberto e informações financeiras com acesso seguro.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/login",
+  "display": "standalone",
+  "theme_color": "#835afd",
+  "background_color": "#f8f9fc",
+  "lang": "pt-BR"
+}

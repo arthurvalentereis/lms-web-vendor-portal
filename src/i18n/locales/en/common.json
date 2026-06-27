@@ -1,0 +1,45 @@
+{
+  "menu": "Menu",
+  "dashboard": "Dashboard",
+  "customers": "Customers",
+  "analysisRequests": "Credit requests",
+  "signOut": "Sign out",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "portalTitle": "Sales Portal",
+  "portalSubtitle": "Vendor area",
+  "portalMobileTitle": "Sales portal",
+  "previousPage": "Previous page",
+  "nextPage": "Next page",
+  "empty": "—",
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language",
+    "ptBR": "Português (BR)",
+    "en": "English",
+    "es": "Español"
+  },
+  "customerType": {
+    "pf": "Individual",
+    "pj": "Business"
+  },
+  "seo": {
+    "brandTitle": "Letmesee Sales Portal",
+    "defaultDescription": "Track customers and credit requests with secure magic link access.",
+    "loginTitle": "Login | Letmesee Sales Portal",
+    "loginDescription": "Access the Letmesee sales portal with a secure link sent to your email.",
+    "verifyTitle": "Verifying access | Letmesee Sales Portal",
+    "verifyDescription": "Validating your sales portal access link.",
+    "dashboardTitle": "Dashboard | Letmesee Sales Portal",
+    "dashboardDescription": "Commercial overview of your portfolio: customers and credit requests.",
+    "customersTitle": "Customers | Letmesee Sales Portal",
+    "customersDescription": "Customers under your commercial responsibility.",
+    "analysisRequestsTitle": "Credit requests | Letmesee Sales Portal",
+    "analysisRequestsDescription": "Credit requests linked to your sales user."
+  }
+}

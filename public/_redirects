@@ -1,0 +1,5 @@
+# API: browser chama portal.letmesee.com.br/api/* → backend em production.letmesee.com.br
+/api/*  https://production.letmesee.com.br/api/:splat  200
+
+# SPA fallback
+/*      /index.html  200

@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Deprecated: portal migrado para Vercel. Manter temporariamente até cutover DNS.
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://production.letmesee.com.br/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

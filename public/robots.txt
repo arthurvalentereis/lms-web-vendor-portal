@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /login
+Disallow: /dashboard
+Disallow: /select-customer
+Disallow: /auth/
+
+Sitemap: https://portal.letmesee.com.br/sitemap.xml
